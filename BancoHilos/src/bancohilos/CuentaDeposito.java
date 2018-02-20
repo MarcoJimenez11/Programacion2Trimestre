@@ -27,9 +27,9 @@ public class CuentaDeposito extends CuentaBancaria{
     }
     
     @Override
-    public synchronized void actualizarCuenta(){
+    public void actualizarCuenta(){
         meses++;
-        writer.println("---------------------------------- MES " + meses + " ---------------------------------");
+        writer.println("---------------------------------- MES " + meses + " CUENTA " + numeroCuenta + " ---------------------------------");
         if(meses < 12)
             writer.println("Aún no han pasado 12 meses para actualizar el depósito " + numeroCuenta);
         else{

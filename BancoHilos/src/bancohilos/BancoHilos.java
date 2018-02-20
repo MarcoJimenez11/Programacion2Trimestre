@@ -5,6 +5,9 @@
  */
 package bancohilos;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Usuario DAM
@@ -14,7 +17,7 @@ public class BancoHilos {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args){
         CuentaBancaria[] cuentas = new CuentaBancaria[4];
         cuentas[0] = new CuentaBancaria(0);
         cuentas[1] = new CuentaBancaria(1);
@@ -23,33 +26,35 @@ public class BancoHilos {
         
         cuentas[3] = new CuentaDeposito(3);
         
-        Cliente cliente10 = new Cliente(10, cuentas, 0);
-        Cliente cliente11 = new Cliente(11, cuentas, 0);
-        Cliente cliente20 = new Cliente(20, cuentas, 1);
-        Cliente cliente21 = new Cliente(21, cuentas, 1);
+        Cliente cliente01 = new Cliente(01, cuentas, 0);
+        Cliente cliente02 = new Cliente(02, cuentas, 0);
+        Cliente cliente11 = new Cliente(11, cuentas, 1);
+        Cliente cliente12 = new Cliente(12, cuentas, 1);
         
-        Cliente cliente30 = new Cliente(30, cuentas, 2);
+        Cliente cliente21 = new Cliente(21, cuentas, 2);
         
-        Cliente cliente40 = new Cliente(40, cuentas, 3);
+        Cliente cliente31 = new Cliente(31, cuentas, 3);
         
-        cliente10.start();
+        cliente01.start();
+        cliente02.start();
         cliente11.start();
-        cliente20.start();
+        cliente12.start();
         cliente21.start();
-        cliente30.start();
-        cliente40.start();
+        cliente31.start();
         
-        /*
+        try {
+            cliente01.join();
+            cliente02.join();
+            cliente11.join();
+            cliente12.join();
+            cliente21.join();
+            cliente31.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(BancoHilos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        
-        HAY QUE ARREGLAR EL ESCRIBIR EN FICHEROS
-        
-        
-        */
-        
-        
-        
-        
+        cuentas[0].cerrarFichero();
+        System.out.println("FIN");
     }
     
 }

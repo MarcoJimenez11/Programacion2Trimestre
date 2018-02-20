@@ -16,9 +16,9 @@ public class CuentaAhorro extends CuentaBancaria {
     }
     
     @Override
-    public synchronized void actualizarCuenta(){
+    public void actualizarCuenta(){
         meses++;
-        writer.println("---------------------------------- MES " + meses + " ---------------------------------");
+        writer.println("---------------------------------- MES " + meses + " CUENTA " + numeroCuenta + " ---------------------------------");
         saldo = saldo + saldo*0.025;
         writer.println("Ha pasado un mes y la cuenta ahorro " + numeroCuenta + " recibe un 0,25% de interés (Saldo: " + saldo + ")");
     }

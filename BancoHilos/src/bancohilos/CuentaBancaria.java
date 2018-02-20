@@ -8,6 +8,8 @@ package bancohilos;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,35 +39,35 @@ public class CuentaBancaria {
     }
     
     public synchronized void ingresar(int dni, int dinero){
-        while(!puedeActualizar){
-            try{
-                wait();
-            }catch(InterruptedException e){}
-        }
+//        while(!puedeActualizar){
+//            try{
+//                wait();
+//            }catch(InterruptedException e){}
+//        }
         saldo += dinero;
         puedeActualizar = false;
-        notifyAll();
+//        notifyAll();
         writer.println("El cliente " + dni + " ha ingresado " + dinero + " € en la cuenta " + numeroCuenta + "(Saldo: " + saldo + ")");
     }
     
     public synchronized void retirar(int dni, int dinero){
-        while(puedeActualizar){
-            try{
-                wait();
-            }catch(InterruptedException e){}
-        }
+//        while(puedeActualizar){
+//            try{
+//                wait();
+//            }catch(InterruptedException e){}
+//        }
         if(this.puedeRetirar(dinero)){
             saldo -= dinero;
             writer.println("El cliente " + dni + " ha retirado " + dinero + " € en la cuenta " + numeroCuenta + "(Saldo: " + saldo + ")");
-            puedeActualizar = true;
-            notifyAll();
         }
         else{
             writer.println("El cliente " + dni + " no ha podido retirar " + dinero + " € en la cuenta " + numeroCuenta);
         }
+        puedeActualizar = true;
+//        notifyAll();
     }
     
-    public synchronized void consultar(int dni){
+    public void consultar(int dni){
         writer.println("El cliente " + dni + " consulta el saldo de su cuenta " + numeroCuenta + ": " + saldo + " € ");
     }
     
@@ -81,20 +83,30 @@ public class CuentaBancaria {
         
     }
     
-    public synchronized boolean puedeRetirar(int dinero){
+    public boolean puedeRetirar(int dinero){
         boolean puede = false;
         if(saldo >= dinero)
             puede = true;
         return puede;
     }
     
-    public synchronized int getNumeroCuenta(){
+    public int getNumeroCuenta(){
         return this.numeroCuenta;
     }
 
-    public synchronized void actualizarCuenta(){
+    public void actualizarCuenta(){
         meses++;
-        writer.println("---------------------------------- MES " + meses + " ---------------------------------");
+        writer.println("---------------------------------- MES " + meses + " CUENTA " + numeroCuenta + "---------------------------------");
         writer.println("Ha pasado un mes pero la cuenta " + numeroCuenta + " es normal");
     }
+    
+    public void cerrarFichero(){
+        try {
+            writer.println("FIN DEL PROGRAMA");
+            fichero.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CuentaBancaria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }
