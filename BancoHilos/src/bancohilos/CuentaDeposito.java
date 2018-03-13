@@ -11,30 +11,38 @@ package bancohilos;
  */
 public class CuentaDeposito extends CuentaBancaria{
     
-    public CuentaDeposito(int numero){
-        super(numero);
+    public CuentaDeposito(int numero, Fichero fichero){
+        super(numero, fichero);
         saldo = 3000;
     }
     
     @Override
     public synchronized void retirar(int dni, int dinero){
         if(meses < 12)
-            writer.print("No se puede retirar del depósito aún: ");
+            fichero.escribe("No se puede retirar del depósito aún: ");
         else{
-            writer.print("Ya se puede retirar del depósito: ");
+            fichero.escribe("Ya se puede retirar del depósito: ");
             super.retirar(dni, dinero);
         }
     }
     
     @Override
+    public boolean puedeRetirar(int dinero){
+        boolean puede = false;
+        if(saldo >= dinero && meses > 11)
+            puede = true;
+        return puede;
+    }
+        
+    @Override
     public void actualizarCuenta(){
         meses++;
-        writer.println("---------------------------------- MES " + meses + " CUENTA " + numeroCuenta + " ---------------------------------");
+        fichero.escribe("---------------------------------- MES " + meses + " CUENTA " + numeroCuenta + " ---------------------------------");
         if(meses < 12)
-            writer.println("Aún no han pasado 12 meses para actualizar el depósito " + numeroCuenta);
+            fichero.escribe("Aún no han pasado 12 meses para actualizar el depósito " + numeroCuenta);
         else{
             saldo = saldo + saldo * 0.1;
-            writer.println("Han pasado 12 meses y el depósito " + numeroCuenta + " recibe una remuneración del 1% (Saldo: " + saldo + ")");
+            fichero.escribe("Han pasado 12 meses y el depósito " + numeroCuenta + " recibe una remuneración del 1% (Saldo: " + saldo + ")");
         }
     }
 }

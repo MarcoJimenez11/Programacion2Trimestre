@@ -11,15 +11,15 @@ package bancohilos;
  */
 public class CuentaAhorro extends CuentaBancaria {
     
-    public CuentaAhorro(int numero) {
-        super(numero);
+    public CuentaAhorro(int numero,Fichero fichero) {
+        super(numero, fichero);
     }
     
     @Override
     public void actualizarCuenta(){
         meses++;
-        writer.println("---------------------------------- MES " + meses + " CUENTA " + numeroCuenta + " ---------------------------------");
+        fichero.escribe("---------------------------------- MES " + meses + " CUENTA " + numeroCuenta + " ---------------------------------");
         saldo = saldo + saldo*0.025;
-        writer.println("Ha pasado un mes y la cuenta ahorro " + numeroCuenta + " recibe un 0,25% de interés (Saldo: " + saldo + ")");
+        fichero.escribe("Ha pasado un mes y la cuenta ahorro " + numeroCuenta + " recibe un 0,25% de interés (Saldo: " + saldo + ")");
     }
 }

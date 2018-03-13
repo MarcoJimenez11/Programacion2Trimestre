@@ -18,13 +18,14 @@ public class BancoHilos {
      * @param args the command line arguments
      */
     public static void main(String[] args){
+        Fichero fichero = new Fichero();
         CuentaBancaria[] cuentas = new CuentaBancaria[4];
-        cuentas[0] = new CuentaBancaria(0);
-        cuentas[1] = new CuentaBancaria(1);
+        cuentas[0] = new CuentaBancaria(0, fichero);
+        cuentas[1] = new CuentaBancaria(1, fichero);
         
-        cuentas[2] = new CuentaAhorro(2);
+        cuentas[2] = new CuentaAhorro(2, fichero);
         
-        cuentas[3] = new CuentaDeposito(3);
+        cuentas[3] = new CuentaDeposito(3, fichero);
         
         Cliente cliente01 = new Cliente(01, cuentas, 0);
         Cliente cliente02 = new Cliente(02, cuentas, 0);
@@ -53,7 +54,7 @@ public class BancoHilos {
             Logger.getLogger(BancoHilos.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        cuentas[0].cerrarFichero();
+        fichero.cerrarFichero();
         System.out.println("FIN");
     }
     
